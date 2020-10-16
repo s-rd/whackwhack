@@ -1,5 +1,6 @@
 /* VARIABLES & MISC */
 @import "variables";
+@import "tools";
 @import "typography";
 
 /* BLOCKS */
@@ -9,7 +10,8 @@
 
 body {
   @include type--content;
-  background: $color__dark;
+  background: $color__dark; // fallback
+  background: radial-gradient(darken($color__focus, 35), $color__dark);
   color: $color__light;
   padding: 0;
   margin: 0;
@@ -28,4 +30,18 @@ html, body, #app {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.score {
+  color: $color__focus;
+  mix-blend-mode: soft-light;
+  position: absolute;
+  opacity: 0.3;
+  svg {
+    width: 100vw;
+    height: 100vh;
+    text tspan {
+      fill: currentColor;
+    }
+  }
 }

@@ -15,6 +15,19 @@
       </div>
     </header>
 
+    <div
+      class="score"
+      :style="scoreStyle"
+    >
+      <svg preserveAspectRatio="none" viewBox="0 0 88 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0)">
+          <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="100" letter-spacing="-0.1em">
+            <tspan x="-4" y="75.3636">17</tspan>
+          </text>
+        </g>
+      </svg>
+    </div>
+
     <main class="gamepad">
       <ul class="gamepad__surface">
         <li
@@ -22,7 +35,7 @@
           class="gamepad__item"
           :key="i"
         >
-          <button class="gamepad__button">Mole</button>
+          <button class="gamepad__button" :class="i == 7 && 'gamepad__button--active'"></button>
         </li>
       </ul>
     </main>
@@ -39,8 +52,40 @@ export default {
   name: 'App',
   data() {
     return {
-
+      windowWidth: 0,
+      windowHeight: 0,
     }
-  }
+  },
+  mounted() {
+    this.setWindowDimensions()
+    this.initListeners()
+  },
+  beforeDestroy() {
+    this.destroyListeners()
+  },
+  methods: {
+    initListeners() {
+      window.addEventListener('resize', this.setWindowDimensions)
+    },
+    destroyListeners() {
+      window.removeEventListener('resize', this.setWindowDimensions)
+    },
+    setWindowDimensions() {
+      try {
+        this.windowWidth = window.innerWidth
+        this.windowHeight = window.innerHeight
+      } catch(e) {
+        console.error(e)
+      }
+    },
+  },
+  computed: {
+    scoreStyle() {
+      // const width = this.windowWidth
+      return {
+        // transform: 'scale(' + width + '%)',
+      }
+    },
+  },
 }
 </script>

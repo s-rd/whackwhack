@@ -8,45 +8,71 @@
   &__surface {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(5, 1fr); // add min-max vals
-    grid-template-rows: repeat(4, 1fr); // add min-max vals
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
     grid-gap: $spacing--base;
-    background-color: #c933ff;
-    margin: 0 0 5%; // Accounting for 3D depth
-    width: 90rem;
+    background-color: $color__focus;
+    margin: 0 0 3rem; // Accounting for 3D depth
+    width: 70rem;
     height: 70vh;
     max-height: 70rem;
     max-width: 90%;
-    // border-radius: 3rem;
+    border-radius: 2rem;
     list-style: none;
-    transform-origin: center center;
+    transform-origin: top center;
     transform-style: preserve-3d;
     backface-visibility: hidden;
-    transform: rotateX(10deg);
+    transform: rotateX(15deg);
     padding: $spacing--base;
+    z-index: 1;
 
-    // Add some thickness
+    // Add some "shadow"
     &::after {
       position: absolute;
-      top: 95%;
-      right: 0;
+      top: 0;
       left: 0;
-      height: 15%;
-      background: #f30;
+      right: 0;
+      bottom: 0;
+      background: $color__secondary;
       content: "";
       transform-origin: 100% 50%;
-      transform: rotateX(90deg);
+      transform: translateZ(-2rem) translateY(1.5rem);
+      z-index: 2;
+      border-radius: inherit;
     }
   }
   &__item {
+    display: flex;
     margin: 0;
     padding: 0;
-    background: #f30;
   }
   &__button {
     appearance: none;
+    border-radius: 1rem;
     border: none;
     box-shadow: none;
-    background: $color__light;
+    background: lighten($color__focus, 20);
+    width: 100%;
+    transition: ease 0.15s all;
+
+    &--active {
+      background: $color__light;
+      transform: translateZ(2rem) translateY(-0.5rem);
+      box-shadow: rgba($color__dark, 0.1) 0 1rem 1rem;
+    }
+
+    &:hover {
+      @extend .gamepad__button--active;
+      transition: ease 0.05s all;
+    }
+  }
+
+  @include from(medium) {
+    &__surface {
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      grid-gap: $spacing--l;
+      padding: $spacing--l;
+    }
   }
 }

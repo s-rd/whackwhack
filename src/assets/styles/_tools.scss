@@ -1,0 +1,31 @@
+@mixin from($size: "medium") {
+  $width: 768px;
+  @if $size == "medium" {
+    $width: 768px;
+  } @else if $size == "large" {
+    $width: 1200px;
+  } @else if $size == "xlarge" {
+    $width: 1350px;
+  } @else {
+    $width: $size;
+  }
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin until($size: "medium") {
+  $width: 768px;
+  @if $size == "medium" {
+    $width: 768px;
+  } @else if $size == "large" {
+    $width: 1200px;
+  } @else if $size == "xlarge" {
+    $width: 1450px;
+  } @else {
+    $width: $size;
+  }
+  @media (max-width: $width) {
+    @content;
+  }
+}
