@@ -1,5 +1,6 @@
-/* VARIABLES */
+/* VARIABLES & MISC */
 @import "variables";
+@import "typography";
 
 /* BLOCKS */
 @import "blocks/gamepad";
@@ -7,5 +8,24 @@
 @import "blocks/pause-screen";
 
 body {
+  @include type--content;
   background: $color__dark;
+  color: $color__light;
+  padding: 0;
+  margin: 0;
+  font-size: 24px;
+  overflow: hidden;
+  * {
+    box-sizing: border-box;
+  }
+}
+
+html, body, #app {
+  height: 100%;
+}
+
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

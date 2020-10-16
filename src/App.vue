@@ -2,8 +2,9 @@
   <div id="app">
 
     <header class="header">
-      <div class="header__scores">
-        0
+      <div class="header__info">
+        <h1 class="header__score">0</h1>
+        <h2 class="header__timer">0</h2>
       </div>
       <div class="header__menu">
         <button class="header__button header__button--pause">
@@ -15,7 +16,15 @@
     </header>
 
     <main class="gamepad">
-      gamepad
+      <ul class="gamepad__surface">
+        <li
+          v-for="i in 20"
+          class="gamepad__item"
+          :key="i"
+        >
+          <button class="gamepad__button">Mole</button>
+        </li>
+      </ul>
     </main>
 
     <div class="pause-screen">
@@ -28,6 +37,10 @@
 <script>
 export default {
   name: 'App',
-  components: { }
+  data() {
+    return {
+
+    }
+  }
 }
 </script>

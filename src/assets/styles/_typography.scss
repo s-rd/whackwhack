@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+$type--content: 'Inter', sans-serif;
+
+@mixin type--content {
+  font-family: $type--content;
+  font-weight: 400;
+}

@@ -1,3 +1,52 @@
 .gamepad {
-  
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  perspective: 62rem;
+  overflow: visible;
+
+  &__surface {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); // add min-max vals
+    grid-template-rows: repeat(4, 1fr); // add min-max vals
+    grid-gap: $spacing--base;
+    background-color: #c933ff;
+    margin: 0 0 5%; // Accounting for 3D depth
+    width: 90rem;
+    height: 70vh;
+    max-height: 70rem;
+    max-width: 90%;
+    // border-radius: 3rem;
+    list-style: none;
+    transform-origin: center center;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    transform: rotateX(10deg);
+    padding: $spacing--base;
+
+    // Add some thickness
+    &::after {
+      position: absolute;
+      top: 95%;
+      right: 0;
+      left: 0;
+      height: 15%;
+      background: #f30;
+      content: "";
+      transform-origin: 100% 50%;
+      transform: rotateX(90deg);
+    }
+  }
+  &__item {
+    margin: 0;
+    padding: 0;
+    background: #f30;
+  }
+  &__button {
+    appearance: none;
+    border: none;
+    box-shadow: none;
+    background: $color__light;
+  }
 }
