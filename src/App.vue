@@ -1,28 +1,33 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+    <header class="header">
+      <div class="header__scores">
+        0
+      </div>
+      <div class="header__menu">
+        <button class="header__button header__button--pause">
+          <transition name="swap" mode="in-out">
+            ||
+          </transition>
+        </button>
+      </div>
+    </header>
+
+    <main class="gamepad">
+      gamepad
+    </main>
+
+    <div class="pause-screen">
+      pause screen
+    </div>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
+  components: { }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

@@ -1,0 +1,11 @@
+/* VARIABLES */
+@import "variables";
+
+/* BLOCKS */
+@import "blocks/gamepad";
+@import "blocks/header";
+@import "blocks/pause-screen";
+
+body {
+  background: $color__dark;
+}
