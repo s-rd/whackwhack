@@ -10,42 +10,38 @@
   align-items: flex-start;
   padding: $spacing--l;
   pointer-events: none; // Don't block gamepad - override for buttons
+  text-shadow: rgba($color__light, 0.5) 0 0 1rem;
 
   &__info {
     @include type--pixel;
-
+    padding: $spacing--base;
+    &:hover {
+      opacity: 0.5;
+    }
   }
   &__score {
     display: flex;
     flex-direction: column;
     margin: 0;
-    font-size: 5rem;
+    font-size: 6rem;
     span {
       font-size: 1.5rem;
       margin: 0 0 $spacing--base;
     }
   }
-
-  &__menu {
-  }
-  &__button {
-    @include type--pixel;
-    pointer-events: auto;
-    appearance: none;
-    background: none;
-    border: none;
-    color: $color__light;
-    font-size: 1.5rem;
+  &__lvl {
+    position: absolute;
+    margin: 0;
+    left: 50%;
+    transform: translateX(-50%);
     padding: $spacing--base;
+  }
+
+  &__button {
+    pointer-events: auto;
 
     &--pause {
 
-    }
-
-    &:hover {
-      @include glow($color__light, 2rem, 0.5);
-      background: $color__light;
-      color: $color__secondary;
     }
   }
 

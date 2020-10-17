@@ -74,7 +74,7 @@
     </svg>
     <ul class="title-screen__menu">
       <li class="title-screen__menu-item">
-        <button @click="handleButtonClick" class="title-screen__menu-button">
+        <button @click="handleButtonClick" class="button title-screen__menu-button">
           {{ playButtonText }}
         </button>
       </li>

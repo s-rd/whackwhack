@@ -5,6 +5,7 @@
       :score="score"
       :is-paused="isPaused"
       :is-started="isStarted"
+      :level="level"
       @togglePause="togglePause"
     />
 
@@ -23,7 +24,6 @@
         >
           <button
             class="gamepad__button"
-            :class="i == 7 && 'gamepad__button--active' || i == 14 && 'gamepad__button--moled'"
             @click="handleButtonClick"
           ></button>
         </li>
@@ -56,8 +56,8 @@ export default {
       score: {
         current: 0,
         high: 0,
+        timeLapsed: 1,
       },
-
       pointer: {
         x: 0,
         y: 0,
@@ -66,6 +66,7 @@ export default {
         width: 0,
         height: 0,
       },
+      timer: null,
     }
   },
   mounted() {
@@ -76,6 +77,16 @@ export default {
     this.destroyListeners()
   },
   methods: {
+    startGame() {
+      this.isStarted = true
+      this.isPaused = false
+      this.startTimer()
+    },
+    startTimer() {
+      this.timer = setInterval(() => {
+        this.score.timeLapsed += 1
+      }, 1000)
+    },
     initListeners() {
       window.addEventListener('mousemove', this.handleMousemove)
       window.addEventListener('resize', this.getViewportSize)
@@ -85,7 +96,17 @@ export default {
       window.removeEventListener('resize', this.getViewportSize)
     },
     togglePause() {
-      this.isPaused = !this.isPaused
+      if (!this.isStarted) {
+        this.startGame()
+      } else {
+        this.isPaused = !this.isPaused
+        if (this.isPaused) {
+          clearInterval(this.timer)
+          this.timer = null
+        } else {
+          this.startTimer()
+        }
+      }
     },
     handleButtonClick() {
       this.score.current += 1
@@ -128,7 +149,9 @@ export default {
         transform: `rotateY(${tiltX}deg) rotateX(${tiltY}deg)`,
       }
     },
-
+    level() {
+      return Math.ceil(this.score.timeLapsed / 30)
+    },
   },
 }
 </script>

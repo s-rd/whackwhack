@@ -89,7 +89,8 @@
       z-index: 0;
       transform: translateZ(0.5rem) translateY(0.5rem);
       background: $color__secondary;
-      box-shadow: rgba($color__secondary, 0.75) 0 0 2rem 1rem,
+      box-shadow: rgba($color__secondary, 0.75) 0 0 2rem 1rem;
+      border-color: $color__light;
     }
   }
 

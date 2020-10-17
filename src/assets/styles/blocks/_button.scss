@@ -1,0 +1,22 @@
+.button {
+  @include type--pixel;
+  pointer-events: auto;
+  appearance: none;
+  background: none;
+  border: none;
+  color: $color__light;
+  font-size: 1.5rem;
+  padding: $spacing--base;
+  text-shadow: rgba($color__light, 0.5) 0 0 1rem;
+
+  &:hover {
+    @include glow($color__light, 2rem, 0.5);
+    background: $color__light;
+    color: $color__secondary;
+  }
+  &:active {
+    @include glow($color__secondary, 2rem, 0.75);
+    background: $color__secondary;
+    color: $color__light;
+  }
+}

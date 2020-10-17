@@ -7,9 +7,10 @@
 @import "blocks/gamepad";
 @import "blocks/header";
 @import "blocks/title-screen";
+@import "blocks/button";
 
 body {
-  @include type--content;
+  @include type--pixel;
   background: $color__dark; // fallback
   background: radial-gradient(darken($color__focus, 45), darken($color__dark, 20));
   color: $color__light;
@@ -30,22 +31,4 @@ html, body, #app {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.score {
-  color: $color__focus;
-  mix-blend-mode: soft-light;
-  position: absolute;
-  opacity: 0.7;
-  svg {
-    width: 100vw;
-    height: 100vh;
-    text {
-      @include type--content;
-      tspan {
-        fill: currentColor;
-        text-align: center;
-      }
-    }
-  }
 }
