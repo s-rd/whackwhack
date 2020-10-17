@@ -1,6 +1,6 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/92d97559-dcc5-44ae-80b8-030aa060652e/deploy-status)](https://app.netlify.com/sites/whuacamole/deploys)
 
-# whackamole
+# Whack Whack Revolution
 
 ## Project setup
 ```
