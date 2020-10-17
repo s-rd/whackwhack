@@ -1,91 +1,134 @@
 <template>
   <div id="app">
 
-    <header class="header">
-      <div class="header__info">
-        <h1 class="header__score">0</h1>
-        <h2 class="header__timer">0</h2>
-      </div>
-      <div class="header__menu">
-        <button class="header__button header__button--pause">
-          <transition name="swap" mode="in-out">
-            ||
-          </transition>
-        </button>
-      </div>
-    </header>
+    <AppHeader
+      :score="score"
+      :is-paused="isPaused"
+      :is-started="isStarted"
+      @togglePause="togglePause"
+    />
 
-    <div
-      class="score"
-      :style="scoreStyle"
+    <main
+      class="gamepad"
+      :class="isPaused && 'gamepad--paused'"
     >
-      <svg preserveAspectRatio="none" viewBox="0 0 88 76" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g clip-path="url(#clip0)">
-          <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="100" letter-spacing="-0.1em">
-            <tspan x="-4" y="75.3636">17</tspan>
-          </text>
-        </g>
-      </svg>
-    </div>
-
-    <main class="gamepad">
-      <ul class="gamepad__surface">
+      <ul
+        class="gamepad__surface"
+        :style="gamepadTiltStyle"
+      >
         <li
           v-for="i in 20"
           class="gamepad__item"
           :key="i"
         >
-          <button class="gamepad__button" :class="i == 7 && 'gamepad__button--active'"></button>
+          <button
+            class="gamepad__button"
+            :class="i == 7 && 'gamepad__button--active' || i == 14 && 'gamepad__button--moled'"
+            @click="handleButtonClick"
+          ></button>
         </li>
       </ul>
     </main>
 
-    <div class="pause-screen">
-      pause screen
-    </div>
+    <TitleScreen
+      :is-paused="isPaused"
+      :is-started="isStarted"
+      @togglePause="togglePause"
+    />
 
   </div>
 </template>
 
 <script>
+import AppHeader from '@/components/AppHeader'
+import TitleScreen from '@/components/TitleScreen'
+
 export default {
   name: 'App',
+  components: {
+    AppHeader,
+    TitleScreen,
+  },
   data() {
     return {
-      windowWidth: 0,
-      windowHeight: 0,
+      isPaused: true,
+      isStarted: false,
+      score: {
+        current: 0,
+        high: 0,
+      },
+
+      pointer: {
+        x: 0,
+        y: 0,
+      },
+      viewport: {
+        width: 0,
+        height: 0,
+      },
     }
   },
   mounted() {
-    this.setWindowDimensions()
     this.initListeners()
+    this.getViewportSize()
   },
   beforeDestroy() {
     this.destroyListeners()
   },
   methods: {
     initListeners() {
-      window.addEventListener('resize', this.setWindowDimensions)
+      window.addEventListener('mousemove', this.handleMousemove)
+      window.addEventListener('resize', this.getViewportSize)
     },
     destroyListeners() {
-      window.removeEventListener('resize', this.setWindowDimensions)
+      window.removeEventListener('mousemove', this.handleMousemove)
+      window.removeEventListener('resize', this.getViewportSize)
     },
-    setWindowDimensions() {
+    togglePause() {
+      this.isPaused = !this.isPaused
+    },
+    handleButtonClick() {
+      this.score.current += 1
+    },
+    handleMousemove(ev) {
       try {
-        this.windowWidth = window.innerWidth
-        this.windowHeight = window.innerHeight
+        this.pointer = {
+          x: ev.pageX,
+          y: ev.pageY,
+        }
+      } catch(e) {
+        console.error(e)
+      }
+    },
+    getViewportSize() {
+      try {
+        this.viewport = {
+          width: window.innerWidth,
+          height: window.innerHeight,
+        }
       } catch(e) {
         console.error(e)
       }
     },
   },
   computed: {
-    scoreStyle() {
-      // const width = this.windowWidth
+    gamepadTiltStyle() {
+      let tiltX, tiltY
+
+      const { width, height } = this.viewport // Viewport size
+      const { y, x } = this.pointer // Pointer location
+
+      const [ tiltMinDegX, tiltMaxDegX ] = [5, -5]
+      const [ tiltMinDegY, tiltMaxDegY ] = [5, 15]
+
+      tiltX = tiltMinDegX + ((x / width) * (tiltMaxDegX-tiltMinDegX))
+      tiltY = tiltMinDegY + ((y / height) * (tiltMaxDegY-tiltMinDegY))
+
       return {
-        // transform: 'scale(' + width + '%)',
+        transform: `rotateY(${tiltX}deg) rotateX(${tiltY}deg)`,
       }
     },
+
   },
 }
 </script>

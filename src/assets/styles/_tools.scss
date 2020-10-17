@@ -29,3 +29,7 @@
     @content;
   }
 }
+
+@mixin glow($color, $spread, $opacity) {
+  box-shadow: rgba($color, $opacity) 0 0 $spread ($spread*0.25);
+}

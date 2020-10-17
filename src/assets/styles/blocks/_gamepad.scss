@@ -4,6 +4,7 @@
   width: 100%;
   perspective: 62rem;
   overflow: visible;
+  transition: ease 1s transform;
 
   &__surface {
     position: relative;
@@ -11,12 +12,14 @@
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(5, 1fr);
     grid-gap: $spacing--base;
-    background-color: $color__focus;
+    background-color: $color__dark;
     margin: 0 0 3rem; // Accounting for 3D depth
     width: 70rem;
-    height: 70vh;
-    max-height: 70rem;
-    max-width: 90%;
+    height: 75vh;
+    max-width: 80%;
+    max-height: 60rem;
+    min-width: 30rem;
+    min-height: 30rem;
     border-radius: 2rem;
     list-style: none;
     transform-origin: top center;
@@ -25,6 +28,8 @@
     transform: rotateX(15deg);
     padding: $spacing--base;
     z-index: 1;
+    border: solid 0.5rem $color__focus;
+    box-shadow: rgba($color__focus, 0.3) 0 0 2rem 1rem;
 
     // Add some "shadow"
     &::after {
@@ -33,10 +38,12 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: $color__secondary;
+      background: darken($color__secondary, 40);
+      border: solid 0.5rem $color__secondary;
+      box-shadow: rgba($color__secondary, 0.3) 0 0 2rem 1rem;
       content: "";
       transform-origin: 100% 50%;
-      transform: translateZ(-2rem) translateY(1.5rem);
+      transform: translateZ(-2rem) translateY(2.5rem);
       z-index: 2;
       border-radius: inherit;
     }
@@ -48,23 +55,50 @@
   }
   &__button {
     appearance: none;
+    position: relative;
     border-radius: 1rem;
     border: none;
     box-shadow: none;
-    background: lighten($color__focus, 20);
+    background: $color__focus; // Fallback
     width: 100%;
     transition: ease 0.15s all;
+    transform-origin: top center;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    overflow: visible;
+    box-shadow: rgba($color__focus, 0.6) 0 0 1rem 0.1rem;
+    border: solid 0.5rem lighten($color__focus, 10);
+    z-index: 1;
 
     &--active {
       background: $color__light;
       transform: translateZ(2rem) translateY(-0.5rem);
-      box-shadow: rgba($color__dark, 0.1) 0 1rem 1rem;
+      z-index: 10;
+      box-shadow: rgba($color__focus, 0.75) 0 0 2rem 1rem,
+                  rgba($color__dark, 1) 0 1rem 2rem;
+    }
+    &--moled {
+      background: $color__secondary;
     }
 
     &:hover {
       @extend .gamepad__button--active;
       transition: ease 0.05s all;
     }
+    &:active {
+      z-index: 0;
+      transform: translateZ(0.5rem) translateY(0.5rem);
+      background: $color__secondary;
+      box-shadow: rgba($color__secondary, 0.75) 0 0 2rem 1rem,
+    }
+  }
+
+  &--paused {
+    transform: scale(0.9);
+  }
+  &:active {
+    transition: ease 0.15s transform;
+    transform: scale(0.95);
   }
 
   @include from(medium) {

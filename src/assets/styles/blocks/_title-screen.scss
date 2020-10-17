@@ -1,0 +1,70 @@
+@keyframes pop-in {
+  0% {
+    transform: scale(0.25)
+               rotateX(20deg);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1)
+               rotateX(10deg);
+  }
+}
+
+.title-screen {
+  position: fixed;
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  backface-visibility: hidden;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  perspective: 500px;
+  background: rgba($color__dark, 0.85);
+
+  &--active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &__logo {
+    opacity: 0;
+    display: block;
+    width: 80rem;
+    max-width: 100%;
+    margin-top: -6rem;
+    animation: pop-in 1s 0.5s ease both;
+    transform-origin: 50% 90%;
+  }
+  &__menu {
+    list-style: none;
+    padding: $spacing--l 0;
+
+    &-item {
+
+    }
+    &-button {
+      @include type--pixel;
+      pointer-events: auto;
+      appearance: none;
+      background: none;
+      border: none;
+      color: $color__light;
+      font-size: 1.5rem;
+      padding: $spacing--base;
+      &:hover {
+        @include glow($color__light, 2rem, 0.5);
+        background: $color__light;
+        color: $color__secondary;
+      }
+    }
+  }
+}

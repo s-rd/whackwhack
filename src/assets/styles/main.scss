@@ -6,12 +6,12 @@
 /* BLOCKS */
 @import "blocks/gamepad";
 @import "blocks/header";
-@import "blocks/pause-screen";
+@import "blocks/title-screen";
 
 body {
   @include type--content;
   background: $color__dark; // fallback
-  background: radial-gradient(darken($color__focus, 35), $color__dark);
+  background: radial-gradient(darken($color__focus, 45), darken($color__dark, 20));
   color: $color__light;
   padding: 0;
   margin: 0;
@@ -36,12 +36,16 @@ html, body, #app {
   color: $color__focus;
   mix-blend-mode: soft-light;
   position: absolute;
-  opacity: 0.3;
+  opacity: 0.7;
   svg {
     width: 100vw;
     height: 100vh;
-    text tspan {
-      fill: currentColor;
+    text {
+      @include type--content;
+      tspan {
+        fill: currentColor;
+        text-align: center;
+      }
     }
   }
 }

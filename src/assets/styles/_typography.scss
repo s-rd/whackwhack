@@ -1,8 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 $type--content: 'Inter', sans-serif;
+$type--pixel: 'Press Start 2P', cursive;
 
 @mixin type--content {
   font-family: $type--content;
+  font-weight: 400;
+}
+@mixin type--pixel {
+  font-family: $type--pixel;
   font-weight: 400;
 }
