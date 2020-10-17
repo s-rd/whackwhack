@@ -1,16 +1,8 @@
-@keyframes pop-in {
-  0% {
-    transform: scale(0.25)
-               rotateX(20deg);
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1)
-               rotateX(10deg);
-  }
+@keyframes hover {
+  0% { transform: rotateX(10deg) rotateY(0deg) translateY(0%); }
+  25% { transform: rotateX(10deg) rotateY(3deg) translateY(3%); }
+  75% { transform: rotateX(10deg) rotateY(-3deg) translateY(-3%); }
+  100% { transform: rotateX(10deg) rotateY(0deg) translateY(0%); }
 }
 
 .title-screen {
@@ -36,13 +28,13 @@
   }
 
   &__logo {
-    opacity: 0;
     display: block;
     width: 80rem;
     max-width: 100%;
     margin-top: -6rem;
-    animation: pop-in 1s 0.5s ease both;
+    transform: rotateX(10deg);
     transform-origin: 50% 90%;
+    animation: hover 10s ease infinite;
   }
   &__menu {
     list-style: none;

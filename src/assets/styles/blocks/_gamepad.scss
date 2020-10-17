@@ -48,7 +48,7 @@
       border-radius: inherit;
     }
   }
-  &__item {
+  &__slab {
     display: flex;
     margin: 0;
     padding: 0;
@@ -78,11 +78,29 @@
                   rgba($color__dark, 1) 0 1rem 2rem;
     }
     &--moled {
-      background: $color__secondary;
+      background: $color__light;
+      transform: translateZ(2rem) translateY(-0.5rem);
+      z-index: 10;
+      box-shadow: rgba($color__focus, 0.75) 0 0 2rem 1rem,
+                  rgba($color__dark, 1) 0 1rem 2rem;
+      animation: fade-to-red 4s 9s ease both;
+      &::after {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient($color__red, rgba($color__red, 0.5) 70%);
+        animation: fade-in-and-blink 12s 3s ease both;
+        border-radius: 0.5rem;
+      }
     }
 
     &:hover {
       @extend .gamepad__button--active;
+      background: $color__secondary;
+      border-color: $color__light;
       transition: ease 0.05s all;
     }
     &:active {

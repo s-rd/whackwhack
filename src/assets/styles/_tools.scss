@@ -33,3 +33,25 @@
 @mixin glow($color, $spread, $opacity) {
   box-shadow: rgba($color, $opacity) 0 0 $spread ($spread*0.25);
 }
+
+@keyframes fade-in-and-blink {
+  0% { opacity: 0; }
+  50% { opacity: 0.33; }
+  75% { opacity: 1; }
+  80% { opacity: 0.5; }
+  85% { opacity: 1; }
+  89% { opacity: 0.75; }
+  93% { opacity: 1; }
+  97% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+@keyframes fade-to-red {
+  75% {
+    border-color: $color__red;
+  }
+  100% {
+    background: darken($color__red, 15);
+    border-color: $color__red;
+  }
+}
