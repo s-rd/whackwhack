@@ -1,3 +1,4 @@
+// Media queries
 @mixin from($size: "medium") {
   $width: 768px;
   @if $size == "medium" {
@@ -14,26 +15,12 @@
   }
 }
 
-@mixin until($size: "medium") {
-  $width: 768px;
-  @if $size == "medium" {
-    $width: 768px;
-  } @else if $size == "large" {
-    $width: 1200px;
-  } @else if $size == "xlarge" {
-    $width: 1450px;
-  } @else {
-    $width: $size;
-  }
-  @media (max-width: $width) {
-    @content;
-  }
-}
-
+// Common box glow style
 @mixin glow($color, $spread, $opacity) {
   box-shadow: rgba($color, $opacity) 0 0 $spread ($spread*0.25);
 }
 
+// Animations
 @keyframes fade-in-and-blink {
   0% { opacity: 0; }
   50% { opacity: 0.33; }
@@ -45,7 +32,6 @@
   97% { opacity: 0.8; }
   100% { opacity: 1; }
 }
-
 @keyframes fade-to-red {
   0% {
     box-shadow: rgba($color__focus, 0.75) 0 0 2rem 1rem,
@@ -63,7 +49,6 @@
                 rgba($color__dark, 1) 0 1rem 2rem;
   }
 }
-
 @keyframes tap-feedback {
   0% {
     opacity: 0;
@@ -78,7 +63,6 @@
     transform: scale(1.5);
   }
 }
-
 @keyframes blink-and-fade-out {
   0% {
     transform: scale(1.3) translateY(100%);

@@ -79,7 +79,7 @@
         </li>
       </template>
       <li class="title-screen__menu-item">
-        <button @click="handleButtonClick" class="button title-screen__menu-button">
+        <button @click="handleButtonClick" class="button">
           {{ playButtonText }}
         </button>
       </li>
@@ -119,18 +119,9 @@ export default {
   },
   computed: {
     playButtonText() {
-      let text
-      switch(true) {
-        case this.isGameOver:
-          text = 'Play again'
-          break
-        case this.isStarted:
-          text = 'Resume'
-          break
-        default:
-          text = 'Play'
-      }
-      return text
+      return this.isGameOver
+        ? 'Play again'
+        : 'Play'
     },
   },
 }

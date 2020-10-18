@@ -17,7 +17,7 @@
       :is-started="isStarted"
       :is-game-over="isGameOver"
       @start="startGame"
-      @startOver="startOver"
+      @startOver="resetGame"
     />
 
     <!-- Main Gamepad -->
@@ -64,14 +64,24 @@ export default {
   },
   data() {
     return {
+      // State
       isPaused: true,
       isStarted: false,
       isGameOver: false,
+
+      // Timers
+      timer: null,
+      moleTimer: null,
+      slabs: [],
+
+      // Score
       score: {
         current: 0,
         high: 0,
         timeLapsed: 1,
       },
+
+      // Visual styling
       pointer: {
         x: 0,
         y: 0,
@@ -80,9 +90,6 @@ export default {
         width: 0,
         height: 0,
       },
-      timer: null,
-      moleTimer: null,
-      slabs: [],
     }
   },
   mounted() {
@@ -90,6 +97,7 @@ export default {
     this.initListeners()
     this.getViewportSize()
 
+    // Set high score from localstorage if there is one
     if (localStorage.getItem('highscore')) {
       this.score.high = localStorage.getItem('highscore')
     }
@@ -99,6 +107,7 @@ export default {
   },
   watch: {
     level() {
+      // Emit level up message when it increases
       this.$root.$emit('footer', ['Level up!'])
     },
   },
@@ -134,7 +143,7 @@ export default {
 
       setNextTimeout()
     },
-    startOver() {
+    resetGame() {
       // Reset game if previously played
       this.createSlabs()
       this.score.current = 0
@@ -143,6 +152,21 @@ export default {
       this.isStarted = true
       this.startTimer()
       this.startMoleTimer()
+    },
+    stopTimers() {
+      // Stop/clear timers
+      clearInterval(this.timer)
+      clearTimeout(this.moleTimer)
+      this.timer = null
+      this.moleTimer = null
+      this.score.timeLapsed = 1
+      this.$root.$emit('stop-slab-timers')
+    },
+    setHighScore() {
+      if (this.score.current > this.score.high) {
+        this.score.high = this.score.current
+        localStorage.setItem('highscore', this.score.current)
+      }
     },
 
     // Slab helpers
@@ -203,21 +227,8 @@ export default {
         console.error(e)
       }
     },
-    stopTimers() {
-      // Stop/clear timers
-      clearInterval(this.timer)
-      clearTimeout(this.moleTimer)
-      this.timer = null
-      this.moleTimer = null
-      this.score.timeLapsed = 1
-      this.$root.$emit('stop-slab-timers')
-    },
-    setHighScore() {
-      if (this.score.current > this.score.high) {
-        this.score.high = this.score.current
-        localStorage.setItem('highscore', this.score.current)
-      }
-    },
+
+    // Visual styling
     getViewportSize() {
       try {
         this.viewport = {
