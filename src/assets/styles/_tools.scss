@@ -49,9 +49,13 @@
 @keyframes fade-to-red {
   75% {
     border-color: $color__red;
+    box-shadow: rgba($color__red, 0.75) 0 0 2rem 1rem,
+                rgba($color__dark, 1) 0 1rem 2rem;
   }
   100% {
     background: darken($color__red, 15);
     border-color: $color__red;
+    box-shadow: rgba($color__red, 0.75) 0 0 2rem 1rem,
+                rgba($color__dark, 1) 0 1rem 2rem;
   }
 }

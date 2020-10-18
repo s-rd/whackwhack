@@ -86,6 +86,10 @@
 export default {
   name: 'TitleScreen',
   props: {
+    score: {
+      type: Object,
+      required: true,
+    },
     isPaused: {
       type: Boolean,
       required: true,
@@ -94,17 +98,34 @@ export default {
       type: Boolean,
       required: true,
     },
+    isGameOver: {
+      type: Boolean,
+      required: true,
+    },
   },
   methods: {
     handleButtonClick() {
-      this.$emit('togglePause')
+      if (this.isGameOver) {
+        this.$emit('startOver')
+      } else {
+        this.$emit('togglePause')
+      }
     },
   },
   computed: {
     playButtonText() {
-      return this.isStarted
-        ? 'Resume'
-        : 'Play'
+      let text
+      switch(true) {
+        case this.isGameOver:
+          text = 'Play again'
+          break
+        case this.isStarted:
+          text = 'Resume'
+          break
+        default:
+          text = 'Play'
+      }
+      return text
     },
   },
 }

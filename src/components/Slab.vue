@@ -17,11 +17,29 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      timer: null,
+    }
+  },
   methods: {
+    startTimer() {
+      // Not clicking the slab for 12 seconds makes you lose the game
+      this.timer = setTimeout(() => {
+        this.$emit('fail', this.data.i)
+      }, 12000)
+
+      this.$on('fail', () => {
+        clearTimeout(this.timer)
+        this.timer = null
+      })
+    },
     handleButtonClick() {
-      // Trigger one point if slab has a mole
+      // Give one point if this slab 'isMoled'
       if (this.data.isMoled) {
+        clearTimeout(this.timer)
         this.$emit('hit', this.data.i)
+        this.timer = null
       }
     },
   },

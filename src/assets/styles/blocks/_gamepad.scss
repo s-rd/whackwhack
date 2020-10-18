@@ -100,8 +100,9 @@
     &:hover {
       @extend .gamepad__button--active;
       background: $color__secondary;
-      border-color: $color__light;
+      border-color: $color__light !important;
       transition: ease 0.05s all;
+      box-shadow: rgba($color__light, 0.5) 0 0 2rem 0.25rem;
     }
     &:active {
       z-index: 0;

@@ -21,15 +21,20 @@
           v-for="(slab, i) in slabs"
           :data="slab"
           :key="i"
+          :ref="`slab-${slab.i}`"
           @hit="handleButtonClick"
+          @fail="handleGameOver"
         />
       </ul>
     </main>
 
     <TitleScreen
+      :score="score"
       :is-paused="isPaused"
       :is-started="isStarted"
+      :is-game-over="isGameOver"
       @togglePause="togglePause"
+      @startOver="startOver"
     />
 
   </div>
@@ -51,6 +56,7 @@ export default {
     return {
       isPaused: true,
       isStarted: false,
+      isGameOver: false,
       score: {
         current: 0,
         high: 0,
@@ -78,6 +84,7 @@ export default {
     this.destroyListeners()
   },
   methods: {
+    // Game timeline
     startGame() {
       this.isStarted = true
       this.isPaused = false
@@ -101,11 +108,39 @@ export default {
         this.moleTimer = setTimeout(() => {
           const slab = this.getRandomSlab()
           slab.isMoled = true
+          this.$refs[`slab-${slab.i}`][0].startTimer()
           setNextTimeout()
         }, interval)
       }
       setNextTimeout()
     },
+    togglePause() {
+      if (!this.isStarted) {
+        this.startGame()
+      } else {
+        this.isPaused = !this.isPaused
+        if (this.isPaused) {
+          clearInterval(this.timer)
+          clearTimeout(this.moleTimer)
+          this.timer = null
+          this.moleTimer = null
+        } else {
+          this.startTimer()
+          this.startMoleTimer()
+        }
+      }
+    },
+    startOver() {
+      // Reset game if previously played
+      this.createSlabs()
+      this.isGameOver = false
+      this.isPaused = false
+      this.isStarted = true
+      this.startTimer()
+      this.startMoleTimer()
+    },
+
+    // Slab helpers
     getRandomSlab() {
       const [min, max] = [0, 20]
       const i = Math.floor(Math.random() * (max - min)) + min
@@ -118,6 +153,8 @@ export default {
       }
       this.slabs = slabs
     },
+
+    // Listeners and handlers
     initListeners() {
       window.addEventListener('mousemove', this.handleMousemove)
       window.addEventListener('resize', this.getViewportSize)
@@ -126,21 +163,21 @@ export default {
       window.removeEventListener('mousemove', this.handleMousemove)
       window.removeEventListener('resize', this.getViewportSize)
     },
-    togglePause() {
-      if (!this.isStarted) {
-        this.startGame()
-      } else {
-        this.isPaused = !this.isPaused
-        if (this.isPaused) {
-          clearInterval(this.timer)
-          clearInterval(this.moleTimer)
-          this.timer = null
-          this.moleTimer = null
-        } else {
-          this.startTimer()
-          this.startMoleTimer()
-        }
-      }
+    handleGameOver() {
+      this.isGameOver = true
+      this.isPaused = true
+      this.isStarted = false
+
+      // Set high score
+      this.score.high = this.score.current
+      this.score.current = 0
+
+      // Stop/clear timers
+      clearInterval(this.timer)
+      clearTimeout(this.moleTimer)
+      this.timer = null
+      this.moleTimer = null
+      this.score.timeLapsed = 1
     },
     handleButtonClick(i) {
       this.score.current += 1
