@@ -25,21 +25,28 @@ export default {
   methods: {
     startTimer() {
       // Not clicking the slab for 12 seconds makes you lose the game
+      console.log('timer started', this.data.i)
       this.timer = setTimeout(() => {
+        console.log('fail', this.data.i)
         this.$emit('fail', this.data.i)
+        this.$root.$emit('stop-slab-timers')
       }, 12000)
 
-      this.$on('fail', () => {
-        clearTimeout(this.timer)
-        this.timer = null
+      // If any other slabs 'fail', stop this one too
+      this.$root.$on('stop-slab-timers', () => {
+        if (this.timer !== null && this.data.isMoled) this.stopTimer()
       })
+    },
+    stopTimer() {
+      console.log('timer stopped', this.data.i)
+      clearTimeout(this.timer)
+      this.timer = null
     },
     handleButtonClick() {
       // Give one point if this slab 'isMoled'
       if (this.data.isMoled) {
-        clearTimeout(this.timer)
         this.$emit('hit', this.data.i)
-        this.timer = null
+        this.stopTimer()
       }
     },
   },
