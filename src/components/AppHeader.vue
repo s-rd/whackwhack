@@ -15,11 +15,10 @@
     </h3>
     <div class="header__menu">
       <button
-        @click="handleButtonClick"
+        @click="handleQuitButtonClick"
         class="button header__button header__button--pause"
       >
-        <span v-if="isPaused">Play</span>
-        <span v-else>Pause</span>
+        Quit
       </button>
     </div>
   </header>
@@ -49,8 +48,8 @@ export default {
     },
   },
   methods: {
-    handleButtonClick() {
-      this.$emit('togglePause')
+    handleQuitButtonClick() {
+      this.$emit('quit')
     },
   },
   computed: {

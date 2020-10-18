@@ -52,6 +52,8 @@
     display: flex;
     margin: 0;
     padding: 0;
+    z-index: 4;
+    backface-visibility: hidden;
   }
   &__button {
     appearance: none;
@@ -69,6 +71,25 @@
     box-shadow: rgba($color__focus, 0.6) 0 0 1rem 0.1rem;
     border: solid 0.5rem lighten($color__focus, 10);
     z-index: 1;
+
+    &:hover {
+      background: $color__secondary;
+      border-color: $color__light;
+      transition: ease 0.05s all;
+      z-index: 10;
+      box-shadow: rgba($color__light, 0.5) 0 0 2rem 0.25rem;
+
+    }
+    &:active {
+      z-index: 0;
+      transform: translateZ(0.5rem) translateY(0.5rem);
+      background: $color__secondary;
+      box-shadow: rgba($color__secondary, 0.75) 0 0 2rem 1rem;
+      border-color: $color__light;
+    }
+    &:focus {
+      outline: none;
+    }
 
     &--active {
       background: $color__light;
@@ -95,27 +116,44 @@
         animation: fade-in-and-blink 12s 3s ease both;
         border-radius: 0.5rem;
       }
-    }
 
-    &:hover {
-      @extend .gamepad__button--active;
-      background: $color__secondary;
-      border-color: $color__light !important;
-      transition: ease 0.05s all;
-      box-shadow: rgba($color__light, 0.5) 0 0 2rem 0.25rem;
-    }
-    &:active {
-      z-index: 0;
-      transform: translateZ(0.5rem) translateY(0.5rem);
-      background: $color__secondary;
-      box-shadow: rgba($color__secondary, 0.75) 0 0 2rem 1rem;
-      border-color: $color__light;
+      &:hover {
+        background: lighten($color__green, 20);
+      }
+      &:active {
+        background: $color__green;
+        border-color: darken($color__green, 10);
+        box-shadow: rgba($color__green, 0.75) 0 0 2rem 0.5rem !important;
+      }
     }
   }
 
   &--paused {
     transform: scale(0.9);
   }
+
+  // Level timing
+  &--level-1 &__button {
+    // 12 sec
+    animation-duration: 8s; animation-delay: 3s;
+    &::after { animation-duration: 3s; animation-delay: 8s; }
+  }
+  &--level-2 &__button {
+    // 10 sec
+    animation-duration: 7s; animation-delay: 2s;
+    &::after { animation-duration: 3s; animation-delay: 6s; }
+  }
+  &--level-3 &__button {
+    // 8 sec
+    animation-duration: 5.5s; animation-delay: 1.5s;
+    &::after { animation-duration: 3s; animation-delay: 4.5s; }
+  }
+  &--level-4 &__button {
+    // 6 sec
+    animation-duration: 4s; animation-delay: 1s;
+    &::after { animation-duration: 3s; animation-delay: 2s; }
+  }
+
   &:active {
     transition: ease 0.15s transform;
     transform: scale(0.95);

@@ -4,6 +4,11 @@
   75% { transform: rotateX(10deg) rotateY(-3deg) translateY(-3%); }
   100% { transform: rotateX(10deg) rotateY(0deg) translateY(0%); }
 }
+@keyframes byline {
+  0% { transform: translateY(0%); }
+  50% { transform: translateY(-2%); }
+  100% { transform: translateY(0%); }
+}
 
 .title-screen {
   position: fixed;
@@ -35,6 +40,10 @@
     transform: rotateX(10deg);
     transform-origin: 50% 90%;
     animation: hover 10s ease infinite;
+
+    .byline {
+      animation: byline 6s ease-in-out infinite;
+    }
   }
   &__menu {
     list-style: none;

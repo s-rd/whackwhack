@@ -6,12 +6,12 @@
       :is-paused="isPaused"
       :is-started="isStarted"
       :level="level"
-      @togglePause="togglePause"
+      @quit="handleQuit"
     />
 
     <main
       class="gamepad"
-      :class="isPaused && 'gamepad--paused'"
+      :class="gamepadClass"
     >
       <ul
         class="gamepad__surface"
@@ -20,9 +20,10 @@
         <Slab
           v-for="(slab, i) in slabs"
           :data="slab"
+          :level="level"
           :key="i"
           :ref="`slab-${slab.i}`"
-          @hit="handleButtonClick"
+          @hit="handleMoleClick"
           @fail="handleGameOver"
         />
       </ul>
@@ -33,7 +34,7 @@
       :is-paused="isPaused"
       :is-started="isStarted"
       :is-game-over="isGameOver"
-      @togglePause="togglePause"
+      @start="startGame"
       @startOver="startOver"
     />
 
@@ -79,6 +80,10 @@ export default {
     this.createSlabs()
     this.initListeners()
     this.getViewportSize()
+
+    if (localStorage.getItem('highscore')) {
+      this.score.high = localStorage.getItem('highscore')
+    }
   },
   beforeDestroy() {
     this.destroyListeners()
@@ -112,23 +117,8 @@ export default {
           setNextTimeout()
         }, interval)
       }
+
       setNextTimeout()
-    },
-    togglePause() {
-      if (!this.isStarted) {
-        this.startGame()
-      } else {
-        this.isPaused = !this.isPaused
-        if (this.isPaused) {
-          clearInterval(this.timer)
-          clearTimeout(this.moleTimer)
-          this.timer = null
-          this.moleTimer = null
-        } else {
-          this.startTimer()
-          this.startMoleTimer()
-        }
-      }
     },
     startOver() {
       // Reset game if previously played
@@ -164,24 +154,27 @@ export default {
       window.removeEventListener('mousemove', this.handleMousemove)
       window.removeEventListener('resize', this.getViewportSize)
     },
+    handleQuit() {
+      this.isStarted = false
+      this.isPaused = true
+      this.isGameOver = false
+      this.score.current = 0
+
+      this.createSlabs()
+      this.stopTimers()
+    },
     handleGameOver() {
       this.isGameOver = true
       this.isPaused = true
       this.isStarted = false
 
       // Set high score
-      if (this.score.current > this.score.high) {
-        this.score.high = this.score.current
-      }
+      this.setHighScore()
 
       // Stop/clear timers
-      clearInterval(this.timer)
-      clearTimeout(this.moleTimer)
-      this.timer = null
-      this.moleTimer = null
-      this.score.timeLapsed = 1
+      this.stopTimers()
     },
-    handleButtonClick(i) {
+    handleMoleClick(i) {
       this.score.current += 1
       this.slabs[i].isMoled = false
     },
@@ -193,6 +186,20 @@ export default {
         }
       } catch(e) {
         console.error(e)
+      }
+    },
+    stopTimers() {
+      // Stop/clear timers
+      clearInterval(this.timer)
+      clearTimeout(this.moleTimer)
+      this.timer = null
+      this.moleTimer = null
+      this.score.timeLapsed = 1
+    },
+    setHighScore() {
+      if (this.score.current > this.score.high) {
+        this.score.high = this.score.current
+        localStorage.setItem('highscore', this.score.current)
       }
     },
     getViewportSize() {
@@ -223,9 +230,15 @@ export default {
         transform: `rotateY(${tiltX}deg) rotateX(${tiltY}deg)`,
       }
     },
+    gamepadClass() {
+      return {
+        'gamepad--paused': this.isPaused,
+        [`gamepad--level-${this.level}`]: true,
+      }
+    },
     level() {
       // Increase the level every 20 seconds
-      return Math.ceil(this.score.timeLapsed / 20)
+      return Math.ceil(this.score.timeLapsed / 15)
     },
   },
 }

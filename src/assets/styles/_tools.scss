@@ -63,3 +63,18 @@
                 rgba($color__dark, 1) 0 1rem 2rem;
   }
 }
+
+@keyframes tap-feedback {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}

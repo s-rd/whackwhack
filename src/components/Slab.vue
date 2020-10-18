@@ -16,6 +16,11 @@ export default {
       type: Object,
       required: true,
     },
+    level: {
+      type: Number,
+      required: false,
+      default: 1,
+    },
   },
   data() {
     return {
@@ -24,21 +29,28 @@ export default {
   },
   methods: {
     startTimer() {
-      // Not clicking the slab for 12 seconds makes you lose the game
-      console.log('timer started', this.data.i)
+      // Start timer
+      // Not clicking the slab for X seconds makes you lose the game
+      // Time decreases by 22% at each difficulty level increase
+      const decreaseFactor = 0.22
+      const initMs = 9000
+      const minMs = 5000
+      const interval = Math.max(0, (initMs - (initMs * decreaseFactor * this.level))) + minMs
+
+      console.log(`Slab ${this.data.i}: Starting timer`, interval)
+
       this.timer = setTimeout(() => {
-        console.log('fail', this.data.i)
         this.$emit('fail', this.data.i)
         this.$root.$emit('stop-slab-timers')
-      }, 12000)
+        console.log(`Slab ${this.data.i}: Reporting game over`)
+      }, interval)
 
       // If any other slabs 'fail', stop this one too
       this.$root.$on('stop-slab-timers', () => {
-        if (this.timer !== null && this.data.isMoled) this.stopTimer()
+        this.stopTimer()
       })
     },
     stopTimer() {
-      console.log('timer stopped', this.data.i)
       clearTimeout(this.timer)
       this.timer = null
     },
@@ -47,6 +59,7 @@ export default {
       if (this.data.isMoled) {
         this.$emit('hit', this.data.i)
         this.stopTimer()
+        console.log(`Slab ${this.data.i}: Hit (stopped timer)`)
       }
     },
   },
