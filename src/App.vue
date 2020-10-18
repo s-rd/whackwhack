@@ -133,6 +133,7 @@ export default {
     startOver() {
       // Reset game if previously played
       this.createSlabs()
+      this.score.current = 0
       this.isGameOver = false
       this.isPaused = false
       this.isStarted = true
@@ -169,8 +170,9 @@ export default {
       this.isStarted = false
 
       // Set high score
-      this.score.high = this.score.current
-      this.score.current = 0
+      if (this.score.current > this.score.high) {
+        this.score.high = this.score.current
+      }
 
       // Stop/clear timers
       clearInterval(this.timer)

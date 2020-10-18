@@ -39,8 +39,10 @@
   &__menu {
     list-style: none;
     padding: $spacing--l 0;
+    text-align: center;
 
     &-item {
+      margin-bottom: $spacing--l;
     }
     &-button {
     }

@@ -73,6 +73,11 @@
       </defs>
     </svg>
     <ul class="title-screen__menu">
+      <template v-if="isGameOver">
+        <li class="title-screen__menu-item">
+          Score:{{ score.current }} ~ high:{{ score.high }}
+        </li>
+      </template>
       <li class="title-screen__menu-item">
         <button @click="handleButtonClick" class="button title-screen__menu-button">
           {{ playButtonText }}
