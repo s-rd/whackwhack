@@ -16,7 +16,7 @@
     <div class="header__menu">
       <button
         @click="handleQuitButtonClick"
-        class="button header__button header__button--pause"
+        class="button header__button"
       >
         Quit
       </button>

@@ -1,6 +1,8 @@
 <template>
   <div id="app">
 
+    <Pointer/>
+
     <AppHeader
       :score="score"
       :is-paused="isPaused"
@@ -9,6 +11,16 @@
       @quit="handleQuit"
     />
 
+    <TitleScreen
+      :score="score"
+      :is-paused="isPaused"
+      :is-started="isStarted"
+      :is-game-over="isGameOver"
+      @start="startGame"
+      @startOver="startOver"
+    />
+
+    <!-- Main Gamepad -->
     <main
       class="gamepad"
       :class="gamepadClass"
@@ -29,27 +41,24 @@
       </ul>
     </main>
 
-    <TitleScreen
-      :score="score"
-      :is-paused="isPaused"
-      :is-started="isStarted"
-      :is-game-over="isGameOver"
-      @start="startGame"
-      @startOver="startOver"
-    />
+    <AppFooter v-if="!isPaused"/>
 
   </div>
 </template>
 
 <script>
+import Pointer from '@/components/Pointer'
 import AppHeader from '@/components/AppHeader'
+import AppFooter from '@/components/AppFooter'
 import TitleScreen from '@/components/TitleScreen'
 import Slab from '@/components/Slab'
 
 export default {
   name: 'App',
   components: {
+    Pointer,
     AppHeader,
+    AppFooter,
     TitleScreen,
     Slab,
   },
@@ -87,6 +96,11 @@ export default {
   },
   beforeDestroy() {
     this.destroyListeners()
+  },
+  watch: {
+    level() {
+      this.$root.$emit('footer', ['Level up!'])
+    },
   },
   methods: {
     // Game timeline
@@ -170,13 +184,14 @@ export default {
 
       // Set high score
       this.setHighScore()
-
       // Stop/clear timers
       this.stopTimers()
     },
     handleMoleClick(i) {
       this.score.current += 1
       this.slabs[i].isMoled = false
+
+      this.$root.$emit('footer', ['+1', this.score.current])
     },
     handleMousemove(ev) {
       try {
@@ -195,6 +210,7 @@ export default {
       this.timer = null
       this.moleTimer = null
       this.score.timeLapsed = 1
+      this.$root.$emit('stop-slab-timers')
     },
     setHighScore() {
       if (this.score.current > this.score.high) {

@@ -6,8 +6,10 @@
 /* BLOCKS */
 @import "blocks/gamepad";
 @import "blocks/header";
+@import "blocks/footer";
 @import "blocks/title-screen";
 @import "blocks/button";
+@import "blocks/pointer";
 
 body {
   @include type--pixel;
@@ -20,6 +22,7 @@ body {
   overflow: hidden;
   * {
     box-sizing: border-box;
+    cursor: none;
   }
 }
 

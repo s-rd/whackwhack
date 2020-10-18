@@ -1,0 +1,19 @@
+.pointer {
+  position: fixed;
+  top: -2rem;
+  left: -2rem;
+  width: 3rem;
+  height: 3rem;
+  background: lighten($color__secondary, 15);
+  border: solid 0.5rem $color__light;
+  box-shadow: rgba($color__light, 0.3) 0 0 2rem 1rem;
+  border-radius: 50%;
+  z-index: 20;
+  transform: translate3d(-50%, -50%, 0);
+  backface-visibility: hidden;
+  pointer-events: none;
+
+  &--out {
+    display: none;
+  }
+}

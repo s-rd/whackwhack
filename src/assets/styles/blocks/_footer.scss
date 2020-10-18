@@ -1,0 +1,31 @@
+.footer {
+  position: fixed;
+  z-index: 10;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: $spacing--l;
+  pointer-events: none; // Don't block gamepad - override for buttons
+  text-shadow: rgba($color__light, 0.5) 0 0 1rem;
+  font-size: 1.75rem;
+
+  &__list {
+    list-style: none;
+    padding: $spacing--base;
+    margin: 0;
+
+    &-item {
+      position: relative;
+      text-align: right;
+      margin: $spacing--base 0 0;
+      transform-origin: center center;
+      span {
+        animation: blink-and-fade-out 5s ease both;
+      }
+    }
+  }
+}
