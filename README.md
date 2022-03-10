@@ -26,3 +26,5 @@ npm run serve
 ```
 npm run build
 ```
+
+### Some slight changes
